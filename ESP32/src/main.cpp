@@ -644,6 +644,12 @@ void setup()
 		// #endif
 	}
 #endif
+	#if BLUETOOTH_TCODE
+		if(!SettingsHandler::apMode && SettingsHandler::bluetoothEnabled) {
+			startBlueTooth();
+		} 
+	#endif
+
 
 	
 	#if WIFI_TCODE
@@ -662,11 +668,6 @@ void setup()
 		} else {
 			startConfigMode();
 		}
-	#endif
-	#if BLUETOOTH_TCODE
-		if(!SettingsHandler::apMode && SettingsHandler::bluetoothEnabled) {
-			startBlueTooth();
-		} 
 	#endif
     //otaHandler.setup();
 	displayPrint("Setting up motor");
@@ -762,7 +763,7 @@ void processCommand() {
 	if(bluetoothData.length() > 0) {
 		if(systemCommandHandler && systemCommandHandler->isCommand(bluetoothData.c_str())) {
 			//systemCommandHandler->process(bluetoothData.c_str());
-			executeTCode(bluetoothData);
+			readTCode(bluetoothData);
 		}
 	}
 #endif
