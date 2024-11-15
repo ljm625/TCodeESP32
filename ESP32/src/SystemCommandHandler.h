@@ -277,6 +277,11 @@ private:
 		writeTCode(buf);
 		return true;
 	}};
+	const Command WEBSOCKET_CONNECT{{"websocket connect", "#websocket-connect", "Connect to remote websocket server", SaveRequired::NO, RestartRequired::NO, CommandValueType::NONE}, [this]() -> bool {
+			SettingsHandler::wsClientEnabled = true;
+			return true;
+	}};
+
     const Command MOTION_PROFILE_CYCLE{{"Motion profile cycle", "#motion-profile-cycle", "Cycles the motion generator profiles stopping after last profile", SaveRequired::NO, RestartRequired::NO, CommandValueType::NONE}, [this]() -> bool {
 		return execute([this]() -> bool {
 			SettingsHandler::cycleMotionProfile();
@@ -425,7 +430,7 @@ private:
         DEFAULT_ALL,
 	};
 
-    Command commands[12] = {
+    Command commands[13] = {
         HELP,
         RESTART,
         CLEAR_LOGS_INCLUDE,
@@ -434,6 +439,7 @@ private:
         MOTION_DISABLE,
         MOTION_TOGGLE,
         MOTION_PROFILE_CYCLE,
+		WEBSOCKET_CONNECT,
 		PAUSE,
 		RESUME,
         PAUSE_TOGGLE,

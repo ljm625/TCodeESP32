@@ -51,6 +51,7 @@ class TagHandler {
     static const char* MotionHandler;
     static const char* VoiceHandler;
     static const char* ButtonHandler;
+    static const char* WebSocketsClientHandler;
 
     static const std::vector<const char *> AvailableTags;
 };
@@ -81,6 +82,7 @@ const char* TagHandler::MotorHandler = "motor-handler";
 const char* TagHandler::MotionHandler = "motion-handler";
 const char* TagHandler::VoiceHandler = "voice-handler";
 const char* TagHandler::ButtonHandler = "button-handler";
+const char* TagHandler::WebSocketsClientHandler = "websocket-client-handler";
 
 const std::vector<const char *> TagHandler::AvailableTags = {
     TagHandler::Main,
@@ -113,6 +115,6 @@ const std::vector<const char *> TagHandler::AvailableTags = {
     TagHandler::MotorHandler,
     TagHandler::MotionHandler,
     TagHandler::VoiceHandler,
-    TagHandler::ButtonHandler
-
+    TagHandler::ButtonHandler,
+    TagHandler::WebSocketsClientHandler
 };

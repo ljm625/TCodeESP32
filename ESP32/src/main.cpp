@@ -79,6 +79,7 @@ SOFTWARE. */
 #if WIFI_TCODE
 	#if !SECURE_WEB
 		#include "WebSocketHandler.h"
+		#include "WebSocketClientHandler.h"
 	#else
 		#include "HTTP/SecureWebSocketHandler.hpp"
 	#endif
@@ -112,7 +113,7 @@ TaskHandle_t voiceTask;
 	MDNSHandler mdnsHandler;
 	HTTPBase* webHandler = 0;
 	WebSocketBase* webSocketHandler = 0;
-	
+	WebSocketClientHandler* webSocketClientHandler = 0;
 #endif
 
 #if TEMP_ENABLED
@@ -142,6 +143,7 @@ String serialData;
 char commandTCodeData[MAX_COMMAND];
 char udpData[MAX_COMMAND];
 char webSocketData[MAX_COMMAND];
+char webSocketServerData[MAX_COMMAND];
 #if BLE_TCODE
 	char bleData[MAX_COMMAND];
 #endif
@@ -293,7 +295,15 @@ void startWeb(bool apMode) {
 		webHandler->setup(SettingsHandler::webServerPort, webSocketHandler, apMode);
 		if(!apMode)
 		mdnsHandler.setup(SettingsHandler::hostname, SettingsHandler::friendlyName);
-		
+		webSocketClientHandler = new WebSocketClientHandler();
+		if(SettingsHandler::wsClientEnabled){
+			LogHandler::info(TagHandler::MainLoop, "trying to connect to websocket server: %s", SettingsHandler::wsServerIp);
+			if (webSocketClientHandler){
+				webSocketClientHandler->setup(SettingsHandler::wsServerIp,SettingsHandler::wsServerPort,SettingsHandler::hostname);
+			}
+			LogHandler::info(TagHandler::MainLoop, "Finish connect to websocket server: %s", SettingsHandler::wsServerIp);
+		}
+
 		#if SECURE_WEB
 			LogHandler::debug(TagHandler::Main, "Start https task");
 			auto httpsStatus = xTaskCreateUniversal(
@@ -743,6 +753,11 @@ void getTCodeInput() {
 		udpHandler->read(udpData);
 		benchFinish("Udp get", 2);
 	}
+	if(webSocketClientHandler && webSocketClientHandler->isConnected){
+		benchStart(3);
+		webSocketClientHandler->read(webSocketServerData);
+		benchFinish("wsclient get", 3);
+	}
 #endif
 #if BLE_TCODE
 	if(bleHandler) {
@@ -825,7 +840,6 @@ void loop() {
 			processButton();
 
 			processCommand();
-
 			if(!SettingsHandler::motionPaused) {
 				dStopped = false;
 				benchStart(3);
@@ -840,6 +854,9 @@ void loop() {
 				} else if (strlen(webSocketData) > 0) {
 					LogHandler::verbose(TagHandler::MainLoop, "webSocket writing: %s", webSocketData);
 					readTCode(webSocketData);
+				} else if (strlen(webSocketServerData) > 0) {
+					LogHandler::verbose(TagHandler::MainLoop, "webSocket client writing: %s", webSocketServerData);
+					readTCode(webSocketServerData);
 				} else if (!SettingsHandler::apMode && strlen(udpData) > 0) {
 					benchStart(6);
 					LogHandler::verbose(TagHandler::MainLoop, "udp writing: %s", udpData);

@@ -53,6 +53,7 @@ public:
 			return true;
 		}, true, true); 
 	}};
+    const Command WEBSOCKET_CONNECT{"websocket connect", "#websocket-connect", "Connect to remote websocket server", CommandValueType::NONE, []() -> bool{return true;}};
     const CommandValue<const char*>WIFI_PASS{"Wifi pass", "#wifi-pass", "Sets the password of the wifi AP", CommandValueType::STRING, [](const char* value) -> bool{return true;}};
     const CommandValue<const int>LOG_LEVEL{"Log level", "#log-level", "Sets system log level", CommandValueType::NUMBER, [](const int value) -> bool{return true;}};
     const CommandValue<const char*>ADD_LOG_INCLUDE{"Add log include", "#add-log-include", "Adds a tag to the log includes", CommandValueType::STRING, [](const char* value) -> bool{return true;}};
@@ -77,6 +78,7 @@ public:
         MOTION_DISABLE,
         MOTION_TOGGLE,
         MOTION_PROFILE_CYCLE,
+        WEBSOCKET_CONNECT,
         //PAUSE_TOGGLE,
         EDGE,
         LEFT,
