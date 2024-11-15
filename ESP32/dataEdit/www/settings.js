@@ -752,7 +752,12 @@ function setUserSettings()
     document.getElementById('voiceWakeTime').value = userSettings['voiceWakeTime'];
 
     setupChannelSliders();
-    
+
+    // Setup websocket client settings
+    document.getElementById('wsClientEnabled').checked = userSettings["wsClientEnabled"];
+    document.getElementById('WSServer_Address_text').value = userSettings["wsServerIp"];
+    document.getElementById('WSServer_Port_text').value = userSettings["wsServerPort"];
+
     documentLoaded = true;
     //document.getElementById('debugLink').hidden = !userSettings["debug"];
 }
@@ -2393,4 +2398,10 @@ function handleImportRenames(key, value) {
         buttonSettings = value;
         break;
     }
+}
+function setWsClientSettings() {
+    userSettings["wsClientEnabled"] = document.getElementById('wsClientEnabled').checked;
+    userSettings["wsServerIp"] = document.getElementById('WSServer_Address_text').value;
+    userSettings["wsServerPort"] = parseInt(document.getElementById('WSServer_Port_text').value);
+    updateUserSettings();
 }

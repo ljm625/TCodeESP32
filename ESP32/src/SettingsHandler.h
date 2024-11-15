@@ -196,6 +196,9 @@ public:
     static const char *defaultWifiPass;
     static const char *decoyPass;
     static bool apMode;
+    static bool wsClientEnabled;
+    static char wsServerIp[15];
+    static int wsServerPort;
 
     static const char* getFirmwareVersion() {
         return FIRMWARE_VERSION_NAME;
@@ -1354,6 +1357,11 @@ private:
         setValue(json, voiceVolume, "voiceHandler", "voiceVolume", 0);
         setValue(json, voiceWakeTime, "voiceHandler", "voiceWakeTime", 10);
 
+        wsClientEnabled = json["wsClientEnabled"] | false;
+        const char *wsServerIpTemp = json["wsServerIp"] | "192.168.1.100";
+        if (wsServerIpTemp != nullptr)
+             strcpy(wsServerIp,wsServerIpTemp);
+        wsServerPort = json["wsServerPort"] | 54817;
         lastRebootReason = machine_reset_cause();
         LogHandler::debug(_TAG, "Last reset reason: %s", SettingsHandler::lastRebootReason);
 
@@ -1529,6 +1537,9 @@ private:
         doc["voiceMuted"] = voiceMuted;
         doc["voiceWakeTime"] = voiceWakeTime;
         doc["voiceVolume"] = voiceVolume;
+        doc["wsClientEnabled"] = wsClientEnabled;
+        doc["wsServerIp"] = wsServerIp;
+        doc["wsServerPort"] = wsServerPort;
 
 
         JsonArray includes = doc.createNestedArray("log-include-tags");
@@ -2276,6 +2287,9 @@ private:
         LogHandler::debug(_TAG, "update heaterFrequency: %i", heaterFrequency);
         LogHandler::debug(_TAG, "update logLevel: %i", (int)logLevel);
         LogHandler::debug(_TAG, "update bluetoothEnabled: %i", (int)bluetoothEnabled);
+        LogHandler::debug(_TAG, "update wsClientEnabled: %i", (int)wsClientEnabled);
+        LogHandler::debug(_TAG, "update wsServerIP: %s", wsServerIp);
+        LogHandler::debug(_TAG, "update wsServerPort: %i", wsServerPort);
     }
 };
 
@@ -2465,3 +2479,6 @@ uint16_t SettingsHandler::buttonAnalogDebounce;
 // int SettingsHandler::motionOffsetGlobalRandomMax;
 // int SettingsHandler::motionRandomChangeMin;
 // int SettingsHandler:: motionRandomChangeMax;
+bool SettingsHandler::wsClientEnabled;
+char SettingsHandler::wsServerIp[15];
+int SettingsHandler::wsServerPort;

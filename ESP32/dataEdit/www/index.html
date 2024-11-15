@@ -980,6 +980,39 @@
 						
 					</div>
 				</div>
+				<div id="websocketClientTable" class="formTable">
+					<div>
+						<div>
+							<div class="tHeader">
+								<h3>Websocket Client (Intiface Central)</h3>
+							</div>
+						</div>
+						<div class="tRow">
+							<div class="tCell">
+								<span>Enabled</span> 
+							</div>
+							<div class="tCell">
+								<input id="wsClientEnabled" type="checkbox" onclick="setWsClientSettings()">
+							</div>
+						</div>
+						<div class="tRow">
+							<div class="tCell">
+								<span>Websocket Server address</span> 
+							</div>
+							<div class="tCell">
+								<input id="WSServer_Address_text" type="text" oninput="setWsClientSettings()">
+							</div>
+						</div>
+						<div class="tRow">
+							<div class="tCell">
+								<span>Websocket Server port</span> 
+							</div>
+							<div class="tCell">
+								<input id="WSServer_Port_text" type="number" min="1" oninput="setWsClientSettings()">
+							</div>
+						</div>
+					</div>
+				</div>
 				<div id="batterySettingsTable" class="formTable">
 					<div>
 						<div>
