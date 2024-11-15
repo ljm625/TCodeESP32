@@ -2404,4 +2404,5 @@ function setWsClientSettings() {
     userSettings["wsServerIp"] = document.getElementById('WSServer_Address_text').value;
     userSettings["wsServerPort"] = parseInt(document.getElementById('WSServer_Port_text').value);
     updateUserSettings();
+    setRestartRequired();
 }
