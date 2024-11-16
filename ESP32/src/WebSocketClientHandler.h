@@ -51,9 +51,9 @@ class WebSocketClientHandler{
         }
 
         void read(char* wsData){
-            if(esp_websocket_client_is_connected(client)) {
+            if(strlen(lastMessage)>0) {
                 strcpy(wsData,lastMessage);
-                lastMessage[0]= {0};
+                memset(lastMessage,'\0',256);
             }
         }
         
@@ -90,8 +90,19 @@ class WebSocketClientHandler{
                 LogHandler::debug(TagHandler::WebSocketsClientHandler, "Received opcode=%d", data->op_code);
                 LogHandler::debug(TagHandler::WebSocketsClientHandler, "Received=%.*s", data->data_len, (char *)data->data_ptr);
                 LogHandler::debug(TagHandler::WebSocketsClientHandler, "Total payload length=%d, data_len=%d, current payload offset=%d\r\n", data->payload_len, data->data_len, data->payload_offset);
-                if(data->op_code==2 && data->data_len>0)
-                    strcpy(lastMessage,(char *)data->data_ptr);
+                if(data->op_code==2 && data->data_len>0){
+                    if(strlen(lastMessage)==0){
+                        strncpy(lastMessage,(char *)data->data_ptr,data->data_len);
+                    } else{
+                        if(strlen(lastMessage)+data->data_len>255){
+                            LogHandler::info(TagHandler::WebSocketsClientHandler, "LastMessage len:%d too long,new message is %d, skip new message", strlen(lastMessage),data->data_len);
+                        } else{ 
+                            lastMessage[strlen(lastMessage)]=' ';
+                            strncpy(lastMessage+strlen(lastMessage),(char *)data->data_ptr,data->data_len);
+                        }
+                    }
+                    LogHandler::debug(TagHandler::WebSocketsClientHandler, "LastMessage len:%d msg:%s", strlen(lastMessage),lastMessage);
+                }
                 break;
             case WEBSOCKET_EVENT_ERROR:
                 LogHandler::info(TagHandler::WebSocketsClientHandler, "WEBSOCKET_EVENT_ERROR");
