@@ -138,6 +138,7 @@ public:
     static bool inverseValve;
     static bool inverseStroke;
     static bool inversePitch;
+    static bool inverseRoll;
     static bool valveServo90Degrees;
     static bool lubeEnabled;
     static int lubeAmount;
@@ -1309,6 +1310,7 @@ private:
         valveServo90Degrees = json["valveServo90Degrees"];
         inverseStroke = json["inverseStroke"];
         inversePitch = json["inversePitch"];
+        inverseRoll = json["inverseRoll"];
         lubeEnabled = json["lubeEnabled"];
         lubeAmount = json["lubeAmount"] | 255;
         displayEnabled = json["displayEnabled"] | true;
@@ -1498,6 +1500,7 @@ private:
         doc["valveServo90Degrees"] = valveServo90Degrees;
         doc["inverseStroke"] = inverseStroke;
         doc["inversePitch"] = inversePitch;
+        doc["inverseRoll"] = inverseRoll;
         doc["lubeAmount"] = lubeAmount;
         doc["lubeEnabled"] = lubeEnabled;
         doc["displayEnabled"] = displayEnabled;
@@ -2266,6 +2269,7 @@ private:
         LogHandler::debug(_TAG, "update valveServo90Degrees: %i", valveServo90Degrees);
         LogHandler::debug(_TAG, "update inverseStroke: %i", inverseStroke);
         LogHandler::debug(_TAG, "update inversePitch: %i", inversePitch);
+        LogHandler::debug(_TAG, "update inverseRoll: %i", inverseRoll);
         LogHandler::debug(_TAG, "update lubeEnabled: %i", lubeEnabled);
         LogHandler::debug(_TAG, "update lubeAmount: %i", lubeAmount);
         LogHandler::debug(_TAG, "update displayEnabled: %i", displayEnabled);
@@ -2412,6 +2416,7 @@ bool SettingsHandler::inverseValve = false;
 bool SettingsHandler::valveServo90Degrees = false;
 bool SettingsHandler::inverseStroke = false;
 bool SettingsHandler::inversePitch = false;
+bool SettingsHandler::inverseRoll = false;
 int SettingsHandler::lubeAmount = 255;
 
 bool SettingsHandler::displayEnabled = false;

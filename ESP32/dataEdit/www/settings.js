@@ -682,6 +682,7 @@ function setUserSettings()
 	document.getElementById("valveServo90Degrees").checked = userSettings["valveServo90Degrees"];
 	document.getElementById("inverseStroke").checked = userSettings["inverseStroke"];
 	document.getElementById("inversePitch").checked = userSettings["inversePitch"];
+	document.getElementById("inverseRoll").checked = userSettings["inverseRoll"];
 
 	document.getElementById("displayEnabled").checked = userSettings["displayEnabled"];
 	document.getElementById("sleeveTempDisplayed").checked = userSettings["sleeveTempDisplayed"];
@@ -1450,6 +1451,10 @@ function setInverseStroke() {
 }
 function setInversePitch() {
     userSettings["inversePitch"] = document.getElementById('inversePitch').checked;
+	updateUserSettings();
+}
+function setInverseRoll() {
+    userSettings["inverseRoll"] = document.getElementById('inverseRoll').checked;
 	updateUserSettings();
 }
 function disablePinValidation() {

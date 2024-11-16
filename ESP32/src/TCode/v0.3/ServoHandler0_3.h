@@ -164,6 +164,8 @@ public:
             stroke = map(xLin,0,9999,-350,350);
             roll   = map(yRot,0,9999,-180,180);
             pitch  = map(zRot,0,9999,-350,350);
+            if(SettingsHandler::inverseRoll)
+                roll = -roll;
             if(SettingsHandler::inverseStroke) 
             {
                 ledcWrite(LowerLeftServo_PWM, map(SettingsHandler::LeftServo_ZERO - stroke + roll,0,MainServo_Int,0,65535));

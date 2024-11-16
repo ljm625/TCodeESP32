@@ -471,6 +471,8 @@ public:
 				
 				// Send signals to the servos
 				// Note: 1000 = -45deg, 2000 = +45deg
+				if(SettingsHandler::inverseRoll)
+					roll = -roll;
 
 				if(SettingsHandler::inverseStroke) 
 				{
