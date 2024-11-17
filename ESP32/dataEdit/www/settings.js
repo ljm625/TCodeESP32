@@ -758,6 +758,9 @@ function setUserSettings()
     document.getElementById('wsClientEnabled').checked = userSettings["wsClientEnabled"];
     document.getElementById('WSServer_Address_text').value = userSettings["wsServerIp"];
     document.getElementById('WSServer_Port_text').value = userSettings["wsServerPort"];
+    var wsclientonly = document.getElementsByClassName('wsclientonly');
+    for(var i=0;i < wsclientonly.length; i++)
+        wsclientonly[i].style.display = userSettings["wsClientEnabled"] ? "flex" : "none";
 
     documentLoaded = true;
     //document.getElementById('debugLink').hidden = !userSettings["debug"];
@@ -2409,5 +2412,12 @@ function setWsClientSettings() {
     userSettings["wsServerIp"] = document.getElementById('WSServer_Address_text').value;
     userSettings["wsServerPort"] = parseInt(document.getElementById('WSServer_Port_text').value);
     updateUserSettings();
+    var wsclientonly = document.getElementsByClassName('wsclientonly');
+    for(var i=0;i < wsclientonly.length; i++)
+        wsclientonly[i].style.display = userSettings["wsClientEnabled"] ? "flex" : "none";
     setRestartRequired();
+}
+
+function websocketReconnect(){
+    sendTCode("#websocket-connect");
 }

@@ -278,7 +278,7 @@ private:
 		return true;
 	}};
 	const Command WEBSOCKET_CONNECT{{"websocket connect", "#websocket-connect", "Connect to remote websocket server", SaveRequired::NO, RestartRequired::NO, CommandValueType::NONE}, [this]() -> bool {
-			SettingsHandler::wsClientEnabled = true;
+			SettingsHandler::wsClientReconnect = true;
 			return true;
 	}};
 

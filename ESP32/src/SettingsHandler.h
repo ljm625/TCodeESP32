@@ -198,6 +198,7 @@ public:
     static const char *decoyPass;
     static bool apMode;
     static bool wsClientEnabled;
+    static bool wsClientReconnect;
     static char wsServerIp[15];
     static int wsServerPort;
 
@@ -1360,6 +1361,8 @@ private:
         setValue(json, voiceWakeTime, "voiceHandler", "voiceWakeTime", 10);
 
         wsClientEnabled = json["wsClientEnabled"] | false;
+        wsClientReconnect = false;
+
         const char *wsServerIpTemp = json["wsServerIp"] | "192.168.1.100";
         if (wsServerIpTemp != nullptr)
              strcpy(wsServerIp,wsServerIpTemp);
@@ -2487,3 +2490,4 @@ uint16_t SettingsHandler::buttonAnalogDebounce;
 bool SettingsHandler::wsClientEnabled;
 char SettingsHandler::wsServerIp[15];
 int SettingsHandler::wsServerPort;
+bool SettingsHandler::wsClientReconnect;

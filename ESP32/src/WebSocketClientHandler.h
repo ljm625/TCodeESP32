@@ -46,8 +46,6 @@ class WebSocketClientHandler{
             esp_websocket_client_start(client);
 
             esp_websocket_register_events(client, WEBSOCKET_EVENT_ANY, websocket_event_handler, (void *)client);
-            
-            isInitialized = true;
         }
 
         void read(char* wsData){
@@ -64,7 +62,6 @@ class WebSocketClientHandler{
         }
 
     private:
-        bool isInitialized = false;
         // std::mutex serial_mtx;
         // std::mutex command_mtx;
         const char* _TAG = TagHandler::WebSocketsClientHandler;

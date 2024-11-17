@@ -840,6 +840,17 @@ void loop() {
 			processButton();
 
 			processCommand();
+#if WIFI_TCODE
+			if(SettingsHandler::wsClientEnabled && SettingsHandler::wsClientReconnect){
+				LogHandler::info(TagHandler::MainLoop, "trying to reconnect to websocket server: %s", SettingsHandler::wsServerIp);
+				if (webSocketClientHandler){
+					webSocketClientHandler->closeAll();
+					webSocketClientHandler->setup(SettingsHandler::wsServerIp,SettingsHandler::wsServerPort,SettingsHandler::hostname);
+				}
+				SettingsHandler::wsClientReconnect = false;
+				LogHandler::info(TagHandler::MainLoop, "Finish reconnect to websocket server: %s", SettingsHandler::wsServerIp);
+			}
+#endif
 			if(!SettingsHandler::motionPaused) {
 				dStopped = false;
 				benchStart(3);

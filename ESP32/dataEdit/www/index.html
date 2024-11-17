@@ -1020,6 +1020,14 @@
 								<input id="WSServer_Port_text" type="number" min="1" oninput="setWsClientSettings()">
 							</div>
 						</div>
+						<div class="tRow wsclientonly">
+							<div class="tCell">
+								<span>Reconnect Websocket</span> 
+							</div>
+							<div class="tCell">
+								<button id="wsReconnectBtn" class="formButton" onclick="websocketReconnect()">Reconnect</button>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div id="batterySettingsTable" class="formTable">
