@@ -201,6 +201,12 @@ public:
     static bool wsClientReconnect;
     static char wsServerIp[15];
     static int wsServerPort;
+    static bool enableLaser;
+    static int Laser_PIN;
+    static bool enableDistance;
+    static int TRIG_PIN;
+    static int ECHO_PIN;
+    static int minDistance;
 
     static const char* getFirmwareVersion() {
         return FIRMWARE_VERSION_NAME;
@@ -1366,7 +1372,14 @@ private:
         const char *wsServerIpTemp = json["wsServerIp"] | "192.168.1.100";
         if (wsServerIpTemp != nullptr)
              strcpy(wsServerIp,wsServerIpTemp);
-        wsServerPort = json["wsServerPort"] | 54817;
+        
+        enableLaser = json["enableLaser"] | false;
+        enableDistance = json["enableDistance"] | false;
+        Laser_PIN = json["Laser_PIN"] | 12;
+        TRIG_PIN = json["TRIG_PIN"] | 16;
+        ECHO_PIN = json["ECHO_PIN"] | 17;
+        minDistance = json["minDistance"] | 50;
+
         lastRebootReason = machine_reset_cause();
         LogHandler::debug(_TAG, "Last reset reason: %s", SettingsHandler::lastRebootReason);
 
@@ -1547,6 +1560,12 @@ private:
         doc["wsServerIp"] = wsServerIp;
         doc["wsServerPort"] = wsServerPort;
 
+        doc["enableLaser"] = enableLaser;
+        doc["enableDistance"] = enableDistance;
+        doc["Laser_PIN"] = Laser_PIN;
+        doc["TRIG_PIN"] = TRIG_PIN;
+        doc["ECHO_PIN"] = ECHO_PIN;
+        doc["minDistance"] = minDistance;
 
         JsonArray includes = doc.createNestedArray("log-include-tags");
         std::vector<String> includesVec = LogHandler::getIncludes();
@@ -2491,3 +2510,9 @@ bool SettingsHandler::wsClientEnabled;
 char SettingsHandler::wsServerIp[15];
 int SettingsHandler::wsServerPort;
 bool SettingsHandler::wsClientReconnect;
+bool SettingsHandler::enableLaser;
+bool SettingsHandler::enableDistance;
+int SettingsHandler::Laser_PIN;
+int SettingsHandler::TRIG_PIN;
+int SettingsHandler::ECHO_PIN;
+int SettingsHandler::minDistance;

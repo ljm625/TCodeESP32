@@ -2418,6 +2418,20 @@ function setWsClientSettings() {
     setRestartRequired();
 }
 
+
+function setCatToySettings() {
+    userSettings["enableLaser"] = document.getElementById('enableLaser').checked;
+    userSettings["enableDistance"] = document.getElementById('enableDistance').checked;
+    userSettings["Laser_PIN"] = parseInt(document.getElementById('Laser_PIN').value);
+    userSettings["TRIG_PIN"] = parseInt(document.getElementById('TRIG_PIN').value);
+    userSettings["ECHO_PIN"] = parseInt(document.getElementById('ECHO_PIN').value);
+    userSettings["minDistance"] = parseInt(document.getElementById('minDistance').value);
+
+    updateUserSettings();
+    setRestartRequired();
+}
+
+
 function websocketReconnect(){
     sendTCode("#websocket-connect");
 }

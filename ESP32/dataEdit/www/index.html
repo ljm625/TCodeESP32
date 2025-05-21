@@ -1030,6 +1030,66 @@
 						</div>
 					</div>
 				</div>
+
+				<div id="catToyTable" class="formTable">
+					<div>
+						<div>
+							<div class="tHeader">
+								<h3>CatToy (Laser)</h3>
+							</div>
+						</div>
+						<div class="tRow">
+							<div class="tCell">
+								<span>Laser Enabled</span> 
+							</div>
+							<div class="tCell">
+								<input id="enableLaser" type="checkbox" onclick="setCatToySettings()">
+							</div>
+						</div>
+						<div class="tRow">
+							<div class="tCell">
+								<span>Laser PIN</span> 
+							</div>
+							<div class="tCell">
+								<input id="Laser_PIN" type="number" oninput="setCatToySettings()">
+							</div>
+						</div>
+						<div class="tRow">
+							<div class="tCell">
+								<span>Ultrasound Enabled</span> 
+							</div>
+							<div class="tCell">
+								<input id="enableDistance" type="checkbox" onclick="setCatToySettings()">
+							</div>
+						</div>
+						<div class="tRow">
+							<div class="tCell">
+								<span>Ultrasound TRIG_PIN</span> 
+							</div>
+							<div class="tCell">
+								<input id="TRIG_PIN" type="number" oninput="setCatToySettings()">
+							</div>
+						</div>
+						<div class="tRow">
+							<div class="tCell">
+								<span>Ultrasound ECHO_PIN</span> 
+							</div>
+							<div class="tCell">
+								<input id="ECHO_PIN" type="number" oninput="setCatToySettings()">
+							</div>
+						</div>
+						<div class="tRow">
+							<div class="tCell">
+								<span>Min Distance</span> 
+							</div>
+							<div class="tCell">
+								<input id="minDistance" type="number" min="1" oninput="setCatToySettings()">
+							</div>
+						</div>
+
+					</div>
+				</div>
+
 				<div id="batterySettingsTable" class="formTable">
 					<div>
 						<div>
