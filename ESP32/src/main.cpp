@@ -84,7 +84,7 @@ SOFTWARE. */
 		#include "HTTP/SecureWebSocketHandler.hpp"
 	#endif
 #endif
-
+#include "CatToyHandler.h"
 
 #include "BatteryHandler.h"
 #include "Motion/MotionHandler.hpp"
@@ -115,6 +115,7 @@ TaskHandle_t voiceTask;
 	WebSocketBase* webSocketHandler = 0;
 	WebSocketClientHandler* webSocketClientHandler = 0;
 #endif
+CatToyHandler* catToyHandler = 0;
 
 #if TEMP_ENABLED
 	TemperatureHandler* temperatureHandler = 0;
@@ -689,6 +690,7 @@ void setup()
 		buttonHandler = new ButtonHandler();
 		buttonHandler->init(SettingsHandler::buttonAnalogDebounce, SettingsHandler::bootButtonCommand, SettingsHandler::buttonSets);
 	}
+	catToyHandler = new CatToyHandler();
 
 	SettingsHandler::setMessageCallback(settingChangeCallback);
 	setupSucceeded = true;
@@ -854,24 +856,30 @@ void loop() {
 			if(!SettingsHandler::motionPaused) {
 				dStopped = false;
 				benchStart(3);
+				bool has_motion = false;
 				if (SettingsHandler::getMotionEnabled()) {// Motion overrides all other input
 					processMotionHandlerMovement();
 				} else if (strlen(commandTCodeData) > 0) {
 					LogHandler::verbose(TagHandler::MainLoop, "system command tcode writing: %s", commandTCodeData);
 					readTCode(commandTCodeData);
+					has_motion = true;
 				} else if (serialData.length() > 0) {
 					LogHandler::verbose(TagHandler::MainLoop, "serial writing: %s", serialData.c_str());
 					readTCode(serialData);
+					has_motion = true;
 				} else if (strlen(webSocketData) > 0) {
 					LogHandler::verbose(TagHandler::MainLoop, "webSocket writing: %s", webSocketData);
 					readTCode(webSocketData);
+					has_motion = true;
 				} else if (strlen(webSocketServerData) > 0) {
 					LogHandler::verbose(TagHandler::MainLoop, "webSocket client writing: %s", webSocketServerData);
 					readTCode(webSocketServerData);
+					has_motion = true;
 				} else if (!SettingsHandler::apMode && strlen(udpData) > 0) {
 					benchStart(6);
 					LogHandler::verbose(TagHandler::MainLoop, "udp writing: %s", udpData);
 					readTCode(udpData);
+					has_motion = true;
 					benchFinish("Udp write", 6);
 				} 
 #if BLE_TCODE
@@ -886,6 +894,7 @@ void loop() {
 				}
 #endif
 				benchFinish("Input check", 3);
+				catToyHandler->run(has_motion);
 			} else if(!dStopped) {//All motion is paused execute stop.
 				// movement[0] = {0};
 				// udpData[0] = {0};
