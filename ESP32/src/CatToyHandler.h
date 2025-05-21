@@ -29,7 +29,6 @@ SOFTWARE. */
 class CatToyHandler{
     public: 
         static float avg_distance;
-        static bool isConnected;
         static int distance_count;
         static float distance;
         void setup() {
@@ -93,3 +92,9 @@ class CatToyHandler{
         static unsigned long last_motion_time;
 
 };
+
+float CatToyHandler::avg_distance = 0;
+int CatToyHandler::distance_count = 0;
+float CatToyHandler::distance = 0;
+unsigned long CatToyHandler::last_motion_time = 0;
+
